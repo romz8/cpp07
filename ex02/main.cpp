@@ -1,0 +1,125 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rjobert <rjobert@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/21 11:22:23 by rjobert           #+#    #+#             */
+/*   Updated: 2024/02/21 19:54:10 by rjobert          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "Array.hpp"
+
+template <typename T>
+void manip_array(Array<T>& ar, T& val, size_t pos)
+{
+	try
+	{
+		ar[pos] = val;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << RED << e.what() << RESET << '\n';
+	}
+}
+
+// Specialization for std::string manipulations
+template <>
+void manip_array<std::string>(Array<std::string>& ar, std::string& val, size_t pos) {
+    try {
+        ar[pos] = val;
+    } catch (const std::exception& e) {
+        std::cerr << RED << e.what() << RESET << '\n';
+    }
+}
+
+template<typename T>
+void test_array(T a, T b, T c, T d)
+{
+	std::cout << YELLOW "\nINIT TEST\n" RESET;
+	std::cout << "let's init 3 arrays - one empty, 4 slots, copy of\n";
+	Array<T> arr1;
+	Array<T> arr2(4);
+	Array<T> arr3(arr2);
+	std::cout << "let's check inside : arr1 \n";
+	std::cout << arr1;
+	std::cout << "let's check inside : arr2 \n";
+	std::cout << arr2;
+	std::cout << "let's check inside : arr3 \n";
+	std::cout << arr3;
+
+	std::cout << "let's modify the last 2\n";
+	manip_array(arr2, a, 0);
+    manip_array(arr3, a, 3);
+    manip_array(arr3, b, 1);
+    manip_array(arr3, c, 2);
+
+	std::cout << "\nAfter manipulations:\n";
+    std::cout << "arr2:\n"; std::cout << arr2;
+    std::cout << "arr3:\n"; std::cout << arr3;
+
+	std::cout << "\nlet's create am array 4 by copy assign of arr3\n";
+	Array<T> arr4 = arr3;
+	std::cout << "arr4:\n"; std::cout << arr4;
+	
+	std::cout << YELLOW "\nDEEP COPY TEST\n" RESET;
+	std::cout << "\nlet's replace all value of arr4 and compare with arr3\n";
+	for (size_t i = 0; i < arr4.size(); ++i)
+		manip_array(arr4, d , i); 
+	std::cout << "arr4:\n"; std::cout << arr4;
+	std::cout << "arr3:\n"; std::cout << arr3;
+
+	std::cout << YELLOW "\nOVER-SIZE TEST\n" RESET;
+	std::cout << "\n\n let's create an array of size2 and fill it a bit to much\n";
+	Array<T> ar(2);
+	for (size_t i = 0; i < 4; ++i)
+		manip_array(ar, a, i);
+	std::cout << ar;
+	std::cout << "\n\n now let's try to copy arr4 to our new array of size 2 (shoudl be dyanmic)\n";
+	ar = arr4;
+	std::cout << ar;
+
+	std::cout << YELLOW "\nGO CRAZY TEST\n" RESET;
+	std::cout << "let's try a ton of wrong index \n";
+	manip_array(arr3, a, 42);
+	manip_array(arr3, d, -121);
+	manip_array(arr3, c, -10000000);
+	for (size_t i = 0; i < 8; ++i)
+	{
+		manip_array(arr1, a, i);
+		manip_array(arr2, b, i);
+		manip_array(arr3, c , i);
+		manip_array(arr4, d, i);
+		manip_array(ar, a, i);
+	}
+	std::cout << arr1;
+	std::cout << arr2;
+	std::cout << arr3;
+	std::cout << ar;
+}
+
+// template<>
+// void test_array<std::string>(std::string a, std::string b, std::string c, std::string d)
+// {
+	
+// }
+
+
+int main()
+{	
+	std::cout << std::endl;
+	std::cout << GREEN "/************** INT TEMPLATE TEST *********************/" RESET << std::endl;
+	std::cout << std::endl;
+	test_array(42, 50, -42, 100000000);
+	std::cout << std::endl;
+	std::cout << GREEN "/************** DOUBLE TEMPLATE TEST *********************/" RESET << std::endl;
+	std::cout << std::endl;
+	test_array(42424242.0, -50000.0, -42424242.0, 100000000000000000.0);
+	std::cout << std::endl;
+	std::cout << GREEN "/************** STRING TEMPLATE TEST *********************/" RESET << std::endl;
+	std::cout << std::endl;
+	test_array("Motoko", "Mick Jagger", "42", "Steve Jobs");
+	return (0);
+}

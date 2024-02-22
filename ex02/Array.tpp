@@ -6,7 +6,7 @@
 /*   By: rjobert <rjobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 20:37:05 by rjobert           #+#    #+#             */
-/*   Updated: 2024/02/21 19:48:52 by rjobert          ###   ########.fr       */
+/*   Updated: 2024/02/22 16:29:47 by rjobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ T& Array<T>::operator[](unsigned int idx)
 
 /*
 a const (in-and-out) implementation to allow a read-only 
-array access
+array access for const correctness
 */
 template <typename T>
 const T& Array<T>::operator[](unsigned int idx) const

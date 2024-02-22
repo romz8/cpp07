@@ -6,7 +6,7 @@
 /*   By: rjobert <rjobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:22:23 by rjobert           #+#    #+#             */
-/*   Updated: 2024/02/21 19:54:10 by rjobert          ###   ########.fr       */
+/*   Updated: 2024/02/21 20:12:57 by rjobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,6 @@ void manip_array(Array<T>& ar, T& val, size_t pos)
 	{
 		std::cerr << RED << e.what() << RESET << '\n';
 	}
-}
-
-// Specialization for std::string manipulations
-template <>
-void manip_array<std::string>(Array<std::string>& ar, std::string& val, size_t pos) {
-    try {
-        ar[pos] = val;
-    } catch (const std::exception& e) {
-        std::cerr << RED << e.what() << RESET << '\n';
-    }
 }
 
 template<typename T>
@@ -99,12 +89,6 @@ void test_array(T a, T b, T c, T d)
 	std::cout << arr3;
 	std::cout << ar;
 }
-
-// template<>
-// void test_array<std::string>(std::string a, std::string b, std::string c, std::string d)
-// {
-	
-// }
 
 
 int main()
